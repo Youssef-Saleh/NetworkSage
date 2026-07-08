@@ -1,0 +1,32 @@
+services:
+  networksage:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - NETWORKSAGE_ENV=development
+      - DATABASE_URL=postgresql+psycopg://networksage:networksage@postgres:5432/networksage
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: networksage
+      POSTGRES_PASSWORD: networksage
+      POSTGRES_DB: networksage
+    ports:
+      - "5432:5432"
+    volumes:
+      - networksage_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U networksage"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  networksage_pg:
