@@ -1,5 +1,9 @@
 # NetworkSage-X
 
+[![CI](https://github.com/Youssef-Saleh/NetworkSage/actions/workflows/ci.yml/badge.svg)](https://github.com/Youssef-Saleh/NetworkSage/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+
 Multi-agent SOC analyst that autonomously triages, enriches, and investigates network security alerts, with an explainable attribution layer that traces every agent decision back to the evidence that drove it.
 
 ## Why this project
