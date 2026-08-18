@@ -9,11 +9,11 @@ from typing import Any
 from tenacity import retry, retry_if_not_exception_type, stop_after_attempt, wait_exponential
 
 try:
-    from huggingface_hub import InferenceClient  # type: ignore
-    from huggingface_hub.errors import HfHubHTTPError  # type: ignore
+    from huggingface_hub import InferenceClient
+    from huggingface_hub.errors import HfHubHTTPError
 except ImportError:  # pragma: no cover
-    InferenceClient = None  # type: ignore
-    HfHubHTTPError = Exception  # type: ignore
+    InferenceClient = None  # type: ignore[assignment,misc]
+    HfHubHTTPError = Exception  # type: ignore[assignment,misc]
 
 
 def _is_auth_error(exc: BaseException) -> bool:
@@ -63,6 +63,7 @@ class HFClient:
     def zero_shot_classify(self, text: str, labels: list[str], model: str = "facebook/bart-large-mnli") -> dict[str, float]:
         if not self.is_configured():
             return _fallback_zero_shot(text, labels)
+        assert self.client is not None
         try:
             result = self.client.zero_shot_classification(text=text, candidate_labels=labels, model=model)
         except Exception as e:
@@ -76,6 +77,7 @@ class HFClient:
     def token_classify(self, text: str, model: str = "dslim/bert-base-NER") -> list[dict[str, Any]]:
         if not self.is_configured():
             return _fallback_token_classify(text)
+        assert self.client is not None
         try:
             entities = self.client.token_classification(text=text, model=model)
         except Exception as e:
@@ -98,6 +100,7 @@ class HFClient:
     def feature_extraction(self, texts: list[str], model: str = "sentence-transformers/all-MiniLM-L6-v2") -> list[list[float]]:
         if not self.is_configured():
             return _fallback_embeddings(texts)
+        assert self.client is not None
         try:
             embeddings = self.client.feature_extraction(text=texts, model=model)
         except Exception as e:
@@ -113,6 +116,7 @@ class HFClient:
     def chat(self, messages: list[dict[str, str]], model: str, max_tokens: int = 1024, temperature: float = 0.1, response_format: dict[str, str] | None = None) -> str:
         if not self.is_configured():
             return _fallback_chat(messages, model)
+        assert self.client is not None
         kwargs: dict[str, Any] = {"model": model, "messages": messages, "max_tokens": max_tokens, "temperature": temperature}
         if response_format is not None:
             kwargs["response_format"] = response_format

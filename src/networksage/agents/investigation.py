@@ -60,7 +60,7 @@ def investigate(triage: TriageResult, enrichment: EnrichmentResult, knowledge_ba
     retrieved = knowledge_base.retrieve(query, top_k=top_k)
     selected_techniques = _select_techniques(retrieved, triage.candidate_mitre_techniques)
     cves_found = _extract_cves(triage)
-    cve_lookups = []
+    cve_lookups: list[dict[str, str | float]] = []
     for cve in cves_found:
         docs = knowledge_base.retrieve(f"CVE exploitation {cve}", top_k=1)
         if docs:
@@ -75,7 +75,7 @@ def investigate(triage: TriageResult, enrichment: EnrichmentResult, knowledge_ba
     for d in retrieved:
         attribution.append(AttributionRef(kind="mitre" if d.source == "mitre-attack" else "cve", ref_id=d.doc_id, snippet=d.snippet[:120], weight=d.score))
     for c in cve_lookups:
-        attribution.append(AttributionRef(kind="cve", ref_id=c["id"], snippet=c["title"], weight=c["score"]))
+        attribution.append(AttributionRef(kind="cve", ref_id=str(c["id"]), snippet=str(c["title"]), weight=float(c["score"])))
     latency_ms = int((time.perf_counter() - start) * 1000)
     return InvestigationResult(
         retrieved_docs=retrieved,

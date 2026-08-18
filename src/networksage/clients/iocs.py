@@ -65,7 +65,7 @@ def extract_indicators(text: str, hf_client: HFClient, min_confidence: float = 0
         if key in seen:
             continue
         seen.add(key)
-        out.append(Indicator(value=word, type=kind, confidence=score, source_text=None, source_span=(span.get("start"), span.get("end"))))
+        out.append(Indicator(value=word, type=kind, confidence=score, source_text=None, source_span=(int(span["start"]), int(span["end"]))))
     return out
 
 

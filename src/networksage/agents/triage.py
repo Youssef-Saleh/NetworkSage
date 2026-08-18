@@ -129,9 +129,9 @@ def triage_alert(alert: NetworkAlert, hf_client: HFClient) -> TriageResult:
 
     attribution: list[AttributionRef] = []
     if alert.title:
-        attribution.append(AttributionRef(kind="alert_field", ref_id="title", snippet=alert.title))
+        attribution.append(AttributionRef(kind="alert_field", ref_id="title", snippet=alert.title, weight=1.0))
     if alert.description:
-        attribution.append(AttributionRef(kind="alert_field", ref_id="description", snippet=alert.description[:200]))
+        attribution.append(AttributionRef(kind="alert_field", ref_id="description", snippet=alert.description[:200], weight=1.0))
     for ind in indicators:
         attribution.append(AttributionRef(kind="ioc", ref_id=ind.value, weight=ind.confidence))
     for tid in candidates:

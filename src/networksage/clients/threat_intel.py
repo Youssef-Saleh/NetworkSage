@@ -40,6 +40,7 @@ class AbuseIPDBClient:
     def lookup(self, ip: str) -> ThreatIntelHit:
         if not self.is_configured():
             return _mock_verdict(ip, self.name)
+        assert self.api_key is not None  # is_configured() guarantees this
         try:
             resp = httpx.get(
                 f"{self.base_url}/check",
@@ -70,6 +71,7 @@ class VirusTotalClient:
     def lookup(self, indicator: str) -> ThreatIntelHit:
         if not self.is_configured():
             return _mock_verdict(indicator, self.name)
+        assert self.api_key is not None
         try:
             if _looks_like_hash(indicator):
                 url = f"{self.base_url}/files/{indicator}"
@@ -78,7 +80,7 @@ class VirusTotalClient:
             elif _looks_like_domain(indicator):
                 url = f"{self.base_url}/domains/{indicator}"
             else:
-                return ThreatIntelHit(provider=self.name, indicator=indicator, verdict="unknown")
+                return ThreatIntelHit(provider=self.name, indicator=indicator, verdict="unknown", score=None)
             resp = httpx.get(url, headers={"x-apikey": self.api_key}, timeout=10.0)
             resp.raise_for_status()
             stats = resp.json().get("data", {}).get("attributes", {}).get("last_analysis_stats", {})
@@ -105,6 +107,7 @@ class AlienVaultOTXClient:
     def lookup(self, indicator: str, indicator_type: str = "IPv4") -> ThreatIntelHit:
         if not self.is_configured():
             return _mock_verdict(indicator, self.name)
+        assert self.api_key is not None
         try:
             type_map = {"ipv4": "IPv4", "ipv6": "IPv6", "domain": "domain", "sha256": "file", "sha1": "file", "md5": "file", "url": "url"}
             otx_type = type_map.get(indicator_type.lower(), "IPv4")
@@ -133,6 +136,7 @@ class GreyNoiseClient:
     def lookup(self, ip: str) -> ThreatIntelHit:
         if not self.is_configured():
             return _mock_verdict(ip, self.name)
+        assert self.api_key is not None
         try:
             resp = httpx.get(f"{self.base_url}/v3/community/{ip}", headers={"key": self.api_key}, timeout=10.0)
             resp.raise_for_status()
@@ -140,7 +144,7 @@ class GreyNoiseClient:
             classification = data.get("classification", "unknown")
             verdict_map = {"malicious": "malicious", "benign": "clean", "unknown": "unknown"}
             verdict = verdict_map.get(classification, "unknown")
-            return ThreatIntelHit(provider=self.name, indicator=ip, verdict=verdict, details={"noise": bool(data.get("noise")), "riot": bool(data.get("riot")), "name": data.get("name")})
+            return ThreatIntelHit(provider=self.name, indicator=ip, verdict=verdict, details={"noise": bool(data.get("noise")), "riot": bool(data.get("riot")), "name": data.get("name")}, score=None)
         except httpx.HTTPError:
             return _mock_verdict(ip, self.name)
 
