@@ -7,8 +7,6 @@ demo scripts use the live API when HF_TOKEN is set in env.
 
 from __future__ import annotations
 
-import os
-
 import pytest
 
 

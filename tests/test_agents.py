@@ -4,9 +4,8 @@ from networksage.agents.graph import run_alert
 from networksage.clients.hf_client import HFClient
 from networksage.schemas.models import (
     AlertSource,
-    NetworkAlert,
-    Severity,
     AttackCategory,
+    NetworkAlert,
 )
 
 

@@ -8,7 +8,6 @@ from typing import Any
 from networksage.clients.hf_client import HFClient
 from networksage.schemas.models import Indicator, IndicatorType
 
-
 _IPV4_RE = re.compile(r"^\d{1,3}(\.\d{1,3}){3}$")
 _DOMAIN_RE = re.compile(r"^[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z]{2,})+$")
 _URL_RE = re.compile(r"^https?://", re.IGNORECASE)

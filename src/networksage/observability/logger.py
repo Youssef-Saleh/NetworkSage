@@ -6,9 +6,8 @@ import json
 import logging
 import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
-
 
 log = logging.getLogger("networksage.decisions")
 if not log.handlers:
@@ -25,7 +24,7 @@ class DecisionLogger:
 
     def log_agent_decision(self, agent_name: str, alert_id: str, result: Any) -> None:
         record = {
-            "ts": datetime.now(timezone.utc).isoformat(),
+            "ts": datetime.now(UTC).isoformat(),
             "run_id": self.run_id,
             "agent": agent_name,
             "alert_id": alert_id,

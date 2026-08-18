@@ -3,18 +3,16 @@
 from __future__ import annotations
 
 import time
-from typing import Iterable
+from collections.abc import Iterable
 
 from networksage.schemas.models import (
     AttributionRef,
     EnrichmentResult,
-    InvestigationResult,
     PipelineState,
     RecommendedAction,
     ResponseResult,
     TriageResult,
 )
-
 
 _ACTION_BY_CATEGORY = {
     "phishing": [("quarantine_email", "user mailbox", 0.85, False), ("block_sender_domain", "sender_domain", 0.9, False), ("alert_user", "user", 0.95, True)],

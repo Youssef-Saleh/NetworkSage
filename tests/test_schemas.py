@@ -46,14 +46,14 @@ def test_alert_validation_rejects_empty_id() -> None:
 def test_attribution_ref_weight_bounds() -> None:
     import pytest
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         AttributionRef(kind="ioc", ref_id="x", weight=1.5)
 
 
 def test_triage_result_confidence_bounds() -> None:
     import pytest
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         TriageResult(
             severity=Severity.HIGH,
             severity_confidence=1.5,
@@ -68,5 +68,5 @@ def test_triage_result_confidence_bounds() -> None:
 def test_indicator_confidence_bounds() -> None:
     import pytest
 
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         Indicator(value="1.2.3.4", type=IndicatorType.IPV4, confidence=-0.1)

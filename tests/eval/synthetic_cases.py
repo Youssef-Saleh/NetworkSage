@@ -13,7 +13,6 @@ from networksage.schemas.models import (
     Severity,
 )
 
-
 CASE_PHISHING_001 = EvalCase(
     name="phishing_001_spearphish_with_cve",
     alert=NetworkAlert(

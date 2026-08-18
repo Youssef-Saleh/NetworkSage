@@ -16,7 +16,6 @@ from networksage.schemas.models import (
     TriageResult,
 )
 
-
 _SEVERITY_LABELS = [s.value for s in Severity]
 _CATEGORY_LABELS = [c.value for c in AttackCategory]
 

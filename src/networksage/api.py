@@ -16,7 +16,6 @@ from networksage.observability.logger import DecisionLogger
 from networksage.rag.knowledge_base import seed_default_knowledge_base
 from networksage.schemas.models import NetworkAlert, PipelineState
 
-
 logging.basicConfig(level=os.getenv("NETWORKSAGE_LOG_LEVEL", "INFO"))
 log = logging.getLogger(__name__)
 

@@ -45,7 +45,6 @@ def _select_techniques(retrieved: list[RetrievedDoc], candidates: list[str], top
             if len(selected) >= top_n:
                 break
     if len(selected) < top_n:
-        from networksage.rag.knowledge_base import KnowledgeBase as _KB
         for tid in candidates:
             if any(s["id"] == tid for s in selected):
                 continue

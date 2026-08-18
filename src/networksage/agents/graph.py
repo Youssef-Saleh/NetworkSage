@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from langgraph.graph import END, START, StateGraph
@@ -16,7 +16,6 @@ from networksage.clients.hf_client import HFClient
 from networksage.observability.logger import DecisionLogger
 from networksage.rag.knowledge_base import KnowledgeBase, seed_default_knowledge_base
 from networksage.schemas.models import PipelineState
-
 
 log = logging.getLogger(__name__)
 
@@ -69,11 +68,11 @@ def _node_response(state: dict[str, Any], logger: DecisionLogger) -> dict[str, A
         response = draft_response(s)
     except ValueError as e:
         s.error = str(e)
-        s.completed_at = datetime.now(timezone.utc)
+        s.completed_at = datetime.now(UTC)
         return _state_to_dict(s)
     logger.log_agent_decision("response", s.alert.alert_id, response)
     s.response = response
-    s.completed_at = datetime.now(timezone.utc)
+    s.completed_at = datetime.now(UTC)
     return _state_to_dict(s)
 
 

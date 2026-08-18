@@ -1,8 +1,8 @@
 """Run the eval harness over the synthetic case suite."""
 
-from tests.eval.synthetic_cases import ALL_CASES
 from networksage.clients.hf_client import HFClient
 from networksage.eval.harness import run_eval_suite, summarize
+from tests.eval.synthetic_cases import ALL_CASES
 
 
 def test_eval_suite_summary() -> None:

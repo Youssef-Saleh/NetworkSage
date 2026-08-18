@@ -6,17 +6,16 @@ holds these objects, so the entire pipeline is schema-validated end to end.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-
 # ---------- Enums ----------
 
 
-class Severity(str, Enum):
+class Severity(str, Enum):  # noqa: UP042
     CRITICAL = "critical"
     HIGH = "high"
     MEDIUM = "medium"
@@ -24,7 +23,7 @@ class Severity(str, Enum):
     INFO = "info"
 
 
-class AttackCategory(str, Enum):
+class AttackCategory(str, Enum):  # noqa: UP042
     PHISHING = "phishing"
     MALWARE = "malware"
     COMMAND_AND_CONTROL = "c2"
@@ -37,7 +36,7 @@ class AttackCategory(str, Enum):
     UNKNOWN = "unknown"
 
 
-class AlertSource(str, Enum):
+class AlertSource(str, Enum):  # noqa: UP042
     SURICATA = "suricata"
     ZEEK = "zeek"
     WAZUH = "wazuh"
@@ -49,7 +48,7 @@ class AlertSource(str, Enum):
 # ---------- Indicator types ----------
 
 
-class IndicatorType(str, Enum):
+class IndicatorType(str, Enum):  # noqa: UP042
     IPV4 = "ipv4"
     IPV6 = "ipv6"
     DOMAIN = "domain"
@@ -100,7 +99,7 @@ class NetworkAlert(BaseModel):
     model_config = ConfigDict(extra="allow", str_strip_whitespace=True)
 
     alert_id: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(UTC))
     source: AlertSource = AlertSource.GENERIC
     title: str
     description: str = ""
@@ -200,7 +199,7 @@ class PipelineState(BaseModel):
     investigation: InvestigationResult | None = None
     response: ResponseResult | None = None
     error: str | None = None
-    started_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    started_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
     completed_at: datetime | None = None
 
     model_config = ConfigDict(arbitrary_types_allowed=True)

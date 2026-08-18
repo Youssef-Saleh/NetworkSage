@@ -6,7 +6,6 @@ import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 import numpy as np
 
@@ -71,7 +70,7 @@ class KnowledgeBase:
         path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     @classmethod
-    def load(cls, path: str | Path, hf_client: HFClient) -> "KnowledgeBase":
+    def load(cls, path: str | Path, hf_client: HFClient) -> KnowledgeBase:
         path = Path(path)
         payload = json.loads(path.read_text(encoding="utf-8"))
         kb = cls(hf_client)

@@ -21,7 +21,6 @@ from networksage.schemas.models import (
     TriageResult,
 )
 
-
 _INDICATOR_TO_PROVIDERS: dict[IndicatorType, list[str]] = {
     IndicatorType.IPV4: ["abuseipdb", "virustotal", "alienvault_otx", "greynoise"],
     IndicatorType.IPV6: ["abuseipdb", "virustotal", "alienvault_otx"],
